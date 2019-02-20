@@ -1,62 +1,119 @@
 var $ = function(id){
     return document.getElementById(id);
 }
-
 var count = 0;
 var bookList = [];
 
-function addBook(){
+$("btnAdd").onclick = function addBook(){
     //adds book to the array if validation passes
-    var bPrice;
-    try{
-        bPrice = parseFloat($("price").value);
+    if(!textIsEmpty()){
+        alert("Please enter all fields.");
     }
-    catch(err){
-        alert("please enter a price for the book");
-        return;
+    else{
+        var bPrice = $("price").value;
+        if(TryParseFloat(bPrice, 0) === 0){
+            alert("Enter a valid price");
+            return;
+        }
+
+        var bQuant = $("qty").value;
+        if(TryParseInt(bQuant,0) === 0){
+            alert("Enter a valid quantity");
+            return;
+        }
+
+        var bTitle = $("title").value;
+        var bAuthor = $("author").value;
+        var bDate = $("publish").value;;
+
+        if(validateBook(bTitle)){
+            bookList.push(
+                {
+                    bookTitle: bTitle,
+                    bookAuthor: bAuthor,
+                    bookPrice: bPrice,
+                    bookQuantity: bQuant,
+                    bookDate: bDate
+                }
+            );
+
+            showCount(bQuant);
+        }
     }
 
-    var bQuant;
-    try{
-        bQuant = parseInt($("quantity").value);
-    }
-    catch(err){
-        alert("please enter a valid number of books");
-        return;
-    }
-
-    var Book = {
-        bookTitle: $("title").value,
-        bookAuthor: $("author").value,
-        bookPrice: bPrice,
-        bookQuantity: bQuant,
-        bookDate: new Date($("publish").getFullYear())
-    }
-
-    if(validateBook(Book.bookTitle)){
-
-    }
 }
 
-function showCount(){
+function showCount(quantity){
     //counts up the books in the list
-    count ++; //currently incorrect, must increment by the quantity of books added
+    var q = parseInt(quantity);
+    count += q;
     $("lblCount").innerHTML = "Inventory Count: " + count;
 }
 
-function validateBook(x){
-    //checks if the book title is already in the list and alerts the user
-    var title = x;
+function validateBook(title){
+    //checks if the book title is already in the list and alerts the user if so
 
     for(var i = 0; i < bookList.length; i++){
+        if(title === bookList[i].bookTitle){
+            alert("Book already in list.");
+            return false;
+        }
+    }
+    return true;
+}
 
+$("btnView").onclick = function viewInventory(){
+    //loops through the array and displays books in the list 1 by 1 as an alert to the user
+
+    if(bookList.length === 0){
+        alert("No books listed.");
+    }
+
+    for(var i = 0; i < bookList.length; i++){
+        alert("Title: " + bookList[i].bookTitle + "\n" +
+                "Author: " + bookList[i].bookAuthor + "\n" +
+                "Price: " + bookList[i].bookPrice + "\n" +
+                "Quantity: " + bookList[i].bookQuantity + "\n" +
+                "Published: " + bookList[i].bookDate + "\n");
     }
 }
 
-function viewInventory(){
-    //loops through the array and displays books in the list 1 by 1 as an alert to the user
+function TryParseInt(str,defaultValue) {
+    var retValue = defaultValue;
+    if(str !== null) {
+        if(str.length > 0) {
+            if (!isNaN(str)) {
+                retValue = parseInt(str);
+            }
+        }
+    }
+    return retValue;
 }
-
+function TryParseFloat(str,defaultValue) {
+    var retValue = defaultValue;
+    if(str !== null) {
+        if(str.length > 0) {
+            if (!isNaN(str)) {
+                retValue = parseFloat(str);
+            }
+        }
+    }
+    return retValue;
+}
+function textIsEmpty(){
+    if($("title").value === "")
+    {return false;}
+    if($("author").value === "")
+    {return false;}
+    if($("price").value === "")
+    {return false;}
+    if($("qty").value === "")
+    {return false;}
+    if($("publish").value === "")
+    {return false;}
+    else
+    {return true;}
+}
 $("btnClear").onclick = function clearForm(){
     //clears the input form of all data and empties the list
     count = 0;
@@ -66,4 +123,6 @@ $("btnClear").onclick = function clearForm(){
     $("price").value = "";
     $("qty").value = "";
     $("publish").value = "";
+    $("lblCount").innerHTML = "Inventory Count: None!";
+
 }
