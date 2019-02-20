@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/bookstore.css">
+</head>
+<body>
+
+<div class = "h2Style"><h2>Bobcat Bookstore</h2></div>
+<br>
+<button>View Inventory</button>
+<h3 id = "lblCount">Inventory Count: None!</h3>
+
+<div class = "formStyle">
+    <form action = "bookstore.html" method = "get" id = "form1" name = "form1">
+        <label>Title:</label>
+        <input type = "text" id = "title" name = title>
+        <br>
+
+        <label>Author:</label>
+        <input type = "text" id = "author" name = "author">
+        <br>
+
+        <label>Price:</label>
+        <input type = "text" id = "price" name = "price">
+        <br>
+
+        <label>Quantity:</label>
+        <input type = "text" id = "qty" name = "qty">
+        <br>
+
+        <label>Date Published:</label>
+        <input type = "date" id = "publish" name = "publish">
+        <br>
+        <br>
+
+        <input type = "button" id = "btnAdd" name = "addBook" value = "Add Book">
+        <input type = "button" id = "btnClear" name = "clear" value = "Clear">
+
+    </form>
+</div>
+
+<script src="js/bookstore.js"></script>
+</body>
+</html>
