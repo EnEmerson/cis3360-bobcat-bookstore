@@ -24,7 +24,7 @@ $("btnAdd").onclick = function addBook(){
 
         var bTitle = $("title").value;
         var bAuthor = $("author").value;
-        var bDate = $("publish").value;;
+        var bDate = $("publish").value;
 
         if(validateBook(bTitle)){
             bookList.push(
@@ -36,11 +36,10 @@ $("btnAdd").onclick = function addBook(){
                     bookDate: bDate
                 }
             );
-
+            alert("You added " + bTitle + " to the cart.");
             showCount(bQuant);
         }
     }
-
 }
 
 function showCount(quantity){
@@ -115,14 +114,17 @@ function textIsEmpty(){
     {return true;}
 }
 $("btnClear").onclick = function clearForm(){
-    //clears the input form of all data and empties the list
-    count = 0;
-    bookList = [];
-    $("title").value = "";
-    $("author").value = "";
-    $("price").value = "";
-    $("qty").value = "";
-    $("publish").value = "";
-    $("lblCount").innerHTML = "Inventory Count: None!";
+    //clears the input form
+    $("form1").reset();
+}
 
+$("btnEmpty").onclick = function resetAll(){
+    //clears the input form of all data and empties the list
+    var answer = confirm("This will clear the form and empty the inventory, are you sure?");
+    if(answer) {
+        count = 0;
+        bookList = [];
+        $("form1").reset();
+        $("lblCount").innerHTML = "Inventory Count: None!";
+    }
 }
